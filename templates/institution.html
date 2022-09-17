@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} {{rows[0]["institution"]}} {% endblock %}
+
+{% block body %}
+<br><br>
+  <div>
+    <h2> {{rows[0]["institution"]}} </h2>
+  </div>
+<div class="card col">
+  <section>
+    <img src="static/images/UCT_Logo.jpg" style="float:left;" width="650" height="350">
+    <article><strong>
+      <br><br>
+      The {{rows[0]["institution"]}} is an institution located in . The institution has {{sum}} researchers who are engaged in artificial intelligence research.
+      Of those {{sum}} researchers:<br>
+      {{values[0]}} : A rated <br>
+      {{values[1]}} : B rated <br>
+      {{values[2]}} : C rated <br>
+      {{values[3]}} : P rated <br>
+      and {{values[4]}} : Y rated, according to the National research foundation (NRF)<br><br>
+      In the AI community the institution (and its researchers) have been actively involved in researching Machine learning, deep learning, reinforcement learning and Computer vision"
+    </strong><br>
+    </article>
+  </section>
+</div>
+<div class="col">
+  <span id='inst_dist' style="width: 500px; height: 500px;" class="center"></span>
+
+  <script type='text/javascript'>
+    var graphs = {{institution_dist | safe}};
+    Plotly.plot('inst_dist',graphs,{});
+  </script>
+</div>
+<br><br><br><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <th>Surname(s)</th>
+    <th>Title</th>
+    <th>Initials</th>
+    <th>Rating</th>
+    <th>Institution</th>
+    <th>Primary Research</th>
+    <th>Secondary Research</th>
+    <th>Specializations</th>
+  </thead>
+
+  {% for row in rows %}
+  <tr>
+    <td><a href={{'/inst_'+row["surname"].replace(' ','+')}}>{{row["surname"]}}</a></td>
+    <td>{{row["initials"]}}</td>
+    <td>{{row["title"]}}</td>
+    <td><a href={{'/inst_'+row["institution"].replace(' ','+')}}>{{row["institution"]}}</a></td>
+    <td>{{row["rating"]}}</td>
+    <td>{{row["primaryResearch"]}}</td>
+    <td>{{row["secondaryResearch"]}}</td>
+    <td>{{row["Specializations"]}}</td>
+  {% endfor %}
+  </tr>
+</table>
+
+{% endblock %}

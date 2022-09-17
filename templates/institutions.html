@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %} Institutions {% endblock %}
+
+{% block body %}
+
+  <form class="input-group input-group-xs" action="/inst_search_results" method="GET">
+    <input type="text" placeholder="Search institutions..." class="form-control" name="Institution_search">
+    <input type="submit" value="Search">
+  </form>
+
+<br>
+<br>
+
+<div>
+  <h3 class="text-heading-default font-weight-bold pix-ready" style="text-align: center">AI research Institutions of South Africa</h3>
+</div>
+
+<br>
+<br>
+<br>
+
+<span id='inst_dist' style="height: 600px; width: 1200px" class="row center"></span>
+<script type='text/javascript'>
+   var graphs = {{res_vs_I | safe}};
+   Plotly.plot('inst_dist',graphs,{});
+</script>
+<div id="content">
+  <p class="text-heading-default font-weight-bold pix-ready"><span class="slide-in-container"><span class="d-inline-block text-heading-default animated">Apply</span></span> <span class="slide-in-container"><span class="d-inline-block text-heading-default animated">filter</span></span> </p>
+  <span class="input-group input-group-sm row" >
+    <div>
+    <label class="form-control col" > Institution
+      <select name="Institution" style="border:0px;" id="input_institution">
+          <option value="All">All</option>
+          {% for option in options[0] %}
+            <option value={{option["Institution"]}} style="width:150px">{{option["Institution"]}}</option>
+          {% endfor %}
+      </select>
+    </label>
+    </div>
+    <div>
+    <label class="form-control col">Location
+      <select name="Location" style="border:0px;" id="input_Location" >
+          <option value="All">All</option>
+          {% for option in options[1] %}
+            <option value={{option["Location"]}} style="width:150px">{{option["Location"]}}</option>
+          {% endfor %}
+      </select>
+    </label>
+    </div>
+    <button class = "btn btn-light" style="height: 38px;"> Apply Filter </button>
+  </span>
+
+<table class="table" style="background-color: white; overflow-y:scroll;">
+  <thead class="thead-dark" style="position: sticky;">
+    <th>Name</th>
+    <th>Location</th>
+    <th>Number of Researchers</th>
+
+  </thead>
+
+    {% for row in rows %}
+    <tr>
+      <td><a href={{'/inst_'+row["institution"].replace(' ','+')}}>{{row["institution"]}}</a></td>
+      <td>{{row["Location"]}}</td>
+      <td>{{row["NumberofResearchers"]}}</td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+<br>
+<br>
+
+</div>
+
+{% endblock %}

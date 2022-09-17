@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+  <div class="input-group input-group-sm" style>
+    <input type="text" placeholder="Search" class="form-control">
+    <select name="Query" id="Search" class="form-control">
+      <option value="researchers">Researchers</option>
+      <option value="institutions">Institutions</option>
+      <option value="publications">Publications</option>
+    </select>
+    <button type="submit" method="POST">search</button>
+  </div>
+
+<br><br><br><br>
+  <div class="text-center">
+    <h1 class="pix-sliding-headline h3 text-heading-default font-weight-bold pix-ready"><span class="slide-in-container"><span class="d-inline-block text-heading-default animated">Our</span></span> <span class="slide-in-container"><span class="d-inline-block text-heading-default animated">Sources</span></span> <span class="slide-in-container"></span> </h1>
+  </div>
+    <br><br>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="content">
+      <section>
+        <img src="static/images/nrflogorgb.png" style="float:left;padding:20px;" width=600 height=350">
+        <article class="card" style="padding:5px;">
+          <strong>
+            [Placeholder article form Wikipedia for Demo]<br>
+            South Africa’s National Research Foundation (NRF) is the intermediary agency between the policies and strategies of the Government of South Africa and South Africa's research institutions.
+            It was established on 1 April 1999 as an autonomous statutory body in accordance with the National Research Foundation Act. Dr Fulufhelo Nelwamondo has been appointed as Chief Executive Officer of the National Research Foundation of South Africa with effect from 1 April 2021. The NRF Board is chaired by Dr Nompumelelo Obokoh
+            The NRF has three main functions:
+            to support research and innovation, through its agency, Research and Innovation Support and Advancement (RISA);
+            to encourage an interest in science and technology through its business unit, the South African Agency for Science and Technology Advancement (SAASTA);
+            to facilitate high-end research through its National Research Facilities (South African Institute for Aquatic Biodiversity; Hartebeesthoek Radio Astronomy Observatory;
+        </strong></article>
+      </section>
+  <br><br><br>
+    <section>
+        <img src="static/images/MAG_logo.png" style="float:right;padding:20px;" width=600 height=350">
+        <article class="card" style="padding:5px;">
+          <strong>[Placeholder article form Wikipedia for Demo]<br>
+            Microsoft Academic was a free internet-based academic search engines for academic publications and literature, developed by Microsoft Research, shut down in 2022. At the same time, OpenAlex launched and claimed to be a successor to Microsoft Academic.
+            The Academic Knowledge API offered information retrieval from the underlying database using REST endpoints for advanced research purposes.
+            The search engine provided not only search results and access to sources but also citation information that include the number of sources, g-index, and h-index.
+          </strong></article>
+      </section>
+</div>
+
+
+{% endblock %}

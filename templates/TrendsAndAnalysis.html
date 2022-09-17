@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %} Trends And Analysis {% endblock %}
+
+{% block body %}
+<h2 style="text-align: center">The A.I. research community in South Africa </h2>
+<div class="content">
+    <div class="jumbotron">
+        <h4 style="margin: 0px; padding: 0px; text-align: center">Rating distribution</h4>
+        <br>
+        <span id='general_graph' style="height: 400px; width: 600px" class="row center"></span>
+        <script type='text/javascript'>
+            var graphs = {{general | safe}};
+            Plotly.plot('general_graph',graphs,{});
+        </script>
+        <br>
+        <h5 style="text-align: center;"> <u> From the distribution:</u> </h5>
+        <br>
+        <div class="row">
+            <div class="col graph">
+                <h6 style="text-align: center;">Pie chart form:</h6>
+                <span id='ratings_pie_chart' style="height:400px; width: 400px" class="row center"></span>
+                <script type='text/javascript'>
+                    var graphs = {{rating_pie | safe}};
+                    Plotly.plot('ratings_pie_chart',graphs,{});
+                </script>
+            </div>
+            <div class="col center">
+                <h6 style="text-align: center;">Chart analysis:</h6><br>
+                <p>- There are <b>{{sum}}</b> NRF rated researchers currently partaking in Artificial intelligence research in South africa.</p>
+                <p >- They are distributed across <b>5</b> categories, and according to the NRF these are: <br>
+                    &emsp; - <b>A</b> – Leading international researchers <br>
+                    &emsp; - <b>B</b> – Internationally acclaimed researchers <br>
+                    &emsp; - <b>C</b> – Established researchers <br>
+                    &emsp; - <b>P</b> – Prestigious Awards <br>
+                    &emsp; - <b>Y</b> – Promising young researchers <br>
+                </p>
+                <p>- Of those <b> {{sum}} </b> researchers: <br>
+                    &emsp; - There are <b>{{ratings[0]}}</b> A-rated researchers (approx {{rating_p[0]}}%)<br>
+                    &emsp; - <b>{{ratings[1]}}</b> B-rated researcher (approx {{rating_p[1]}}%) <br>
+                    &emsp; - <b>{{ratings[2]}}</b> C– rated researchers (approx {{rating_p[2]}}%)<br>
+                    &emsp; - <b>{{ratings[3]}}</b> P-rated researchers (approx {{rating_p[3]}}%)<br>
+                    &emsp; - and <b>{{ratings[4]}}</b> Y-rated researchers (approx {{rating_p[4]}}%)<br>
+                </p>
+                <p>
+                    - The majority of researchers lie within the <b>{{max_r}}</b> category, representing approx <b>{{max}}%</b> of the researchers.<br>
+                    - The least represented category is the <b>{{min_r}}</b> category with <b>1</b> researcher(s) approx <b>{{min}}%</b> of the researchers.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron" style="background-color: white">
+        <h4 style="margin: 0px; padding: 0px; text-align: center"> Distribution by institution</h4>
+        <br>
+        <span id='institution_graph' style="height: 500px; width: 1000px" class="row center"></span>
+        <script type='text/javascript'>
+            var graphs = {{institution | safe}};
+            Plotly.plot('institution_graph',graphs,{});
+        </script>
+    </div>
+    <div class="jumbotron">
+        <span id='spec_graph' style="height: 500px; width: 1000px" class="row center"></span>
+        <script type='text/javascript'>
+            var graphs = {{specialization_dist | safe}};
+            Plotly.plot('spec_graph',graphs,{});
+        </script>
+    </div>
+    <div class="row">
+    <div class="jumbotron col" style="background-color: white; width: 500px; float: right; ">
+         <label class="form-control col"> Rating
+         <select name="Rating" style="border:0px; text-align: center; width: 500px" id="input_rating" onchange="topic_callback(this.value); filter(7, this.value,
+          this.id)" onload="filter(7, this.value, this.id)">
+            <option value="Artificial intelligence">Artificial intelligence</option>
+            <option value="Control methods">Control methods</option>
+            <option value="Artificial neural networks">Artificial neural networks</option>
+            <option value="Deep learning">Deep learning</option>
+           <option value="Machine learning">Machine learning</option>
+             <option value="Robotics">Robotics</option>
+            <option value="Computer vision">Computer vision</option>
+            <option value="Knowledge representation and reasoning">Knowledge representation and reasoning</option>
+            <option value="Search methodologies">Search methodologies</option>
+           <option value="Reinforcement learning">Reinforcement learning</option>
+          </select>
+         </label>
+        <span id='topic_graph' style="height: 500px; width: 1000px; align: center;" class="center"></span>
+        <script type='text/javascript'>
+            var graphs = {{ratings_per_topic | safe}};
+            Plotly.newPlot('topic_graph',graphs,{});
+        </script>
+<table class="table"  id="ResearchersTable" style="height: 400px; width: 1000px; align: center;">
+        <thead class="thead-dark" style="position: sticky;">
+            <th>Surname(s)</th>
+            <th>Initials</th>
+            <th>Title</th>
+            <th>Institution</th>
+            <th>Rating</th>
+            <th>Primary Research</th>
+            <th>Secondary Research</th>
+            <th>Specializations)</th>
+        </thead>
+
+        {% for row in rows %}
+        <tr>
+              <td><a href={{'/inst_'+row["surname"].replace(' ','+')}}>{{row["surname"]}}</a></td>
+              <td>{{row["initials"]}}</td>
+              <td>{{row["title"]}}</td>
+              <td><a href={{'/inst_'+row["institution"].replace(' ','+')}}>{{row["institution"]}}</a></td>
+              <td>{{row["rating"]}}</td>
+              <td>{{row["primaryResearch"]}}</td>
+              <td>{{row["secondaryResearch"]}}</td>
+              <td>{{row["Specializations"]}}</td>
+
+        </tr>
+        {% endfor %}
+</table>
+
+
+    
+    </div>
+    <div class="col">
+    </div>
+    </div>
+    <div class="jumbotron"></div>
+
+    
+</div>
+
+{%
+endblock %}
