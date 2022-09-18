@@ -256,6 +256,7 @@ def universityofcpt(institution):
     institution_dist, values = my_JSONs.researcher_rating_by_inst_JSON(institution)
     my_sum = 0
     rows = None
+    logo_image = "static/images/" + institution + ".png"
     try:
         conn = sqlite3.connect(NRF_database_file)
         conn.row_factory = sqlite3.Row
@@ -270,7 +271,31 @@ def universityofcpt(institution):
         print("Failed to connect to database for the creation of institution.html")
     if rows is not None:
         return render_template("institution.html", institution_dist=institution_dist, institution=institution,
-                               sum=my_sum, values=values, rows=rows)
+                               sum=my_sum, values=values, rows=rows, logo_image = logo_image)
+    else:
+        return render_template("Error_page.html")
+ 
+
+@app.route("/researcher_<surname>")
+def researcher(surname):
+    surname = surname
+    rows = None
+    profile_image = "static/images/profile.png"
+
+    try:
+        conn = sqlite3.connect(NRF_database_file)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        quoted_surname = "\"" + surname + "\""
+        query = "SELECT * FROM Researchers WHERE Surname = '" + surname + "'"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        
+    except sqlite3.Error:
+        print("Failed to connect to database for the creation of researcher.html")
+    if rows is not None:
+        return render_template("researcher.html", surname=surname,
+                               rows=rows, profile_image = profile_image)
     else:
         return render_template("Error_page.html")
 
