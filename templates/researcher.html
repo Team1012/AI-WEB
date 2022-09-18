@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} {{rows[0]["institution"]}} {% endblock %}
+
+{% block body %}
+<br><br>
+  <div>
+    <h2> {{rows[0]["surname"]}} </h2>
+  </div>
+<div class="card col">
+  <section>
+    <img src="{{profile_image}}" style="float:left;" width="350" height="350">
+    <article><strong>
+      <br><br>
+      <br>
+      {{rows[0]["title"]}} {{rows[0]["surname"]}} is a researcher studying at {{rows[0]["institution"]}} whose field of research profile is summarized in the table below:
+    </strong><br>
+    </article>
+  </section>
+</div>
+<div class="col">
+  <span id='inst_dist' style="width: 500px; height: 500px;" class="center"></span>
+  
+<br><br><br><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <th>Surname(s)</th>
+    <th>Initials</th>
+    <th>Title</th>
+    <th>Rating</th>
+    <th>Institution</th>
+    <th>Primary Research</th>
+    <th>Secondary Research</th>
+    <th>Specializations</th>
+  </thead>
+
+  {% for row in rows %}
+  <tr>
+    <td><a href={{'/researcher_'+row["surname"]}}>{{row["surname"]}}</a></td>
+    <td>{{row["initials"]}}</td>
+    <td>{{row["title"]}}</td>
+    <td><a href={{'/inst_'+row["institution"].replace(' ','+')}}>{{row["institution"]}}</a></td>
+    <td>{{row["rating"]}}</td>
+    <td>{{row["primaryResearch"]}}</td>
+    <td>{{row["secondaryResearch"]}}</td>
+    <td>{{row["Specializations"]}}</td>
+  {% endfor %}
+  </tr>
+</table>
+
+{% endblock %}
