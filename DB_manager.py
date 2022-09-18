@@ -107,3 +107,89 @@ class DB_manager:
             specialization_distribution.append(data)
 
         return self.AI_fields, specialization_distribution
+    
+    def get_researchers(self):
+    
+        conn = sqlite3.connect(self.DB_name)
+        cursor = conn.cursor()
+    
+        query = "SELECT Surname FROM Researchers"
+    
+        cursor.execute(query)
+        data = cursor.fetchall()
+    
+        researchers = []
+        
+    
+        for item in data:
+            
+            surname = str(item[0])
+            researchers.append(surname)
+    
+        return researchers
+    
+    
+    def get_institutions(self):
+    
+        conn = sqlite3.connect(self.DB_name)
+        cursor = conn.cursor()
+    
+        query = "SELECT DISTINCT Institution FROM Researchers"
+    
+        cursor.execute(query)
+        data = cursor.fetchall()
+    
+        institutions = []
+        
+    
+        for item in data:
+            
+            surname = str(item[0])
+            institutions.append(surname)
+    
+        return institutions
+
+    
+    # ai_topics is an arrray of different AI topics, ["Artificial Intelligence", "Machine Learning", "Deep learning",...]
+    def clean_data(self, ai_topics):
+
+        conn = sqlite3.connect(self.DB_name)
+        cursor = conn.cursor()
+
+        query = "DELETE FROM Researchers"
+
+        specilizations = " WHERE "
+        primary = " AND "
+        secondary = " AND "
+
+        for index in range(len(ai_topics)):
+
+            if index == len(ai_topics)-1:
+
+                specilizations += "Specializations NOT LIKE '%" + ai_topics[index] + "%'"
+                primary += "PrimaryResearch NOT LIKE '%" + ai_topics[index] + "%'"
+                secondary += "SecondaryResearch NOT LIKE '%" + ai_topics[index] + "%'"
+
+            else:
+
+                specilizations += "Specializations NOT LIKE '%" + ai_topics[index] + "%' AND "
+                primary += "PrimaryResearch NOT LIKE '%" + ai_topics[index] + "%' AND "
+                secondary += "SecondaryResearch NOT LIKE '%" + ai_topics[index] + "%' AND "
+    
+        query += specilizations
+        query += primary
+        query += secondary
+
+        query += " OR Specializations IS NULL "
+        query += " OR PrimaryResearch IS NULL "
+        query += " OR SecondaryResearch IS NULL"
+
+        #print(query)
+        cursor.execute(query)
+
+        
+        query2 = "SELECT * FROM Researchers"
+        cursor.execute(query2)
+        new_data = cursor.fetchall()
+        
+        return new_data # returns a new table after the cleaning the data
