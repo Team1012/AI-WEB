@@ -8,7 +8,7 @@
   </div>
 <div class="card col">
   <section>
-    <img src="static/images/UCT_Logo.jpg" style="float:left;" width="650" height="350">
+    <img src="{{logo_image}}" style="float:left;" width="650" height="350">
     <article><strong>
       <br><br>
       The {{rows[0]["institution"]}} is an institution located in . The institution has {{sum}} researchers who are engaged in artificial intelligence research.
@@ -47,7 +47,7 @@
 
   {% for row in rows %}
   <tr>
-    <td><a href={{'/inst_'+row["surname"].replace(' ','+')}}>{{row["surname"]}}</a></td>
+    <td><a href={{'/researcher_'+row["surname"]}}>{{row["surname"]}}</a></td>
     <td>{{row["initials"]}}</td>
     <td>{{row["title"]}}</td>
     <td><a href={{'/inst_'+row["institution"].replace(' ','+')}}>{{row["institution"]}}</a></td>
